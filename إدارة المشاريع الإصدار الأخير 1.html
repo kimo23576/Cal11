@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دليل إدارة وتنفيذ المشاريع - النظام المتكامل</title>
+  <!-- استيراد Font Awesome وخطوط Google -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- استيراد Chart.js و jsPDF -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    /* ============================================== */
+    /* المتغيرات الأساسية */
+    :root {
+      --primary-color: #8B4513; /* البني الفاخر */
+      --golden-color: #FFD700;  /* الذهبي الفخم */
+      --secondary-color: #A0522D;
+      --accent-color: #D2691E;
+      --light-bg: #f4f4f4;
+      --container-bg: #fff;
+      --text-color: #333;
+      --header-bg: #8B4513;
+      --shadow-color: rgba(0, 0, 0, 0.15);
+    }
+    /* ============================================== */
+    /* تنسيق الصفحة الأساسية */
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.8;
+      direction: rtl;
+    }
+    /* ============================================== */
+    /* تنسيق الهيدر */
+    header {
+      background-color: var(--header-bg);
+      color: #fff;
+      padding: 20px 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px var(--shadow-color);
+    }
+    header h2 {
+      margin: 5px 0 15px;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px #000;
+    }
+    header h2 .golden-title {
+      color: var(--golden-color);
+    }
+    /* ============================================== */
+    /* تنسيق التبويبات */
+    .tab-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    .tab-link {
+      padding: 12px 22px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      background-color: var(--container-bg);
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s, box-shadow 0.3s;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-color);
+      flex: 1 1 9%;
+      text-align: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px var(--shadow-color);
+    }
+    .tab-link:hover, .tab-link.active {
+      background-color: var(--secondary-color);
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 3px 8px var(--shadow-color);
+    }
+    /* ============================================== */
+    /* تنسيق المحتوى الرئيسي */
+    main {
+      margin: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px var(--shadow-color);
+    }
+    section {
+      display: none;
+      margin-top: 40px;
+      animation: fadeIn 0.5s ease-in;
+    }
+    section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* ============================================== */
+    /* عناوين الأقسام والنصوص */
+    h1, h2, h3, h4 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    p {
+      text-align: justify;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+    /* ============================================== */
+    /* تنسيق الحاسبة: قسم حاسبة إدارة المشاريع */
+    .calculator {
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 35px;
+      background-color: #fafafa;
+      box-shadow: 0 3px 10px var(--shadow-color);
+    }
+    .calculator h3 {
+      text-align: center;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+    .calculator label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .calculator input, .calculator button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .calculator button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .calculator button:hover {
+      background-color: var(--secondary-color);
+    }
+    .calc-result {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--accent-color);
+      margin-top: 10px;
+    }
+    /* ============================================== */
+    /* تنسيق بطاقات الدليل */
+    .guide-card {
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 35px;
+      background-color: #fafafa;
+      box-shadow: 0 3px 10px var(--shadow-color);
+    }
+    .guide-card h3 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: var(--accent-color);
+    }
+    .guide-details p {
+      margin: 12px 0;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .guide-details span {
+      font-weight: bold;
+      color: var(--secondary-color);
+    }
+    /* ============================================== */
+    /* تنسيق الأمثلة التوضيحية */
+    .example {
+      border: 1px dashed var(--secondary-color);
+      padding: 15px;
+      margin: 20px 0;
+      background-color: #fffbe6;
+      font-size: 0.95rem;
+    }
+    .example h4 {
+      margin-top: 0;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+    }
+    .example .explanation,
+    .example .chart-section,
+    .example .interpretation,
+    .example .recommendations,
+    .example .conclusion {
+      margin-bottom: 12px;
+    }
+    /* ============================================== */
+    /* تنسيق الرسوم البيانية */
+    .chart-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      border: 1px solid var(--secondary-color);
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+    .chart-description {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: var(--secondary-color);
+    }
+    /* ============================================== */
+    /* قسم الأسئلة الشائعة */
+    .faq-item {
+      border-bottom: 1px solid var(--secondary-color);
+      padding: 15px 0;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-item h4 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: var(--primary-color);
+    }
+    /* ============================================== */
+    /* قسم الموارد والمراجع */
+    .resources ul {
+      list-style: none;
+      padding: 0;
+    }
+    .resources ul li {
+      padding: 10px;
+      border-bottom: 1px solid var(--secondary-color);
+    }
+    .resources ul li a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .resources ul li a:hover {
+      text-decoration: underline;
+    }
+    /* ============================================== */
+    /* تنسيق الفوتر */
+    footer {
+      background-color: var(--header-bg);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 50px;
+    }
+    /* ============================================== */
+    /* كتل المحتوى التقنية الجديدة */
+    .extended-content, .extra-section, .new-details, .extended-guide {
+      font-size: 0.9rem;
+      margin-top: 20px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .extended-content {
+      background-color: #eef;
+      border: 1px solid var(--secondary-color);
+    }
+    .extra-section {
+      background-color: #f9f9ff;
+      border: 1px dashed var(--secondary-color);
+    }
+    .new-details {
+      background-color: #fcfcfc;
+      border: 1px dotted var(--secondary-color);
+    }
+    /* ============================================== */
+    /* ملاحظات لتوسعة المحتوى: يمكن إضافة المزيد من الفقرات والتفاصيل حسب الحاجة */
+  </style>
+</head>
+<body>
+  <!-- ============================================== -->
+  <!-- الهيدر -->
+  <header>
+    <h2><span class="golden-title">دليل إدارة وتنفيذ المشاريع - النظام المتكامل</span></h2>
+    <div class="tab-container">
+      <div class="tab-link active" data-target="introduction"><i class="fas fa-info-circle"></i> المقدمة</div>
+      <div class="tab-link" data-target="calculator"><i class="fas fa-calculator"></i> حاسبة إدارة المشاريع</div>
+      <div class="tab-link" data-target="phase1"><i class="fas fa-clipboard-list"></i> المرحلة 1: التخطيط والإدارة</div>
+      <div class="tab-link" data-target="phase2"><i class="fas fa-cogs"></i> المرحلة 2: التنفيذ</div>
+      <div class="tab-link" data-target="phase3"><i class="fas fa-chart-line"></i> المرحلة 3: المراقبة والتحكم</div>
+      <div class="tab-link" data-target="phase4"><i class="fas fa-flag-checkered"></i> المرحلة 4: التسليم والتوثيق</div>
+      <div class="tab-link" data-target="examples"><i class="fas fa-chart-bar"></i> أمثلة توضيحية (30 مثال)</div>
+      <div class="tab-link" data-target="faq"><i class="fas fa-question-circle"></i> الأسئلة الشائعة (30 سؤال)</div>
+      <div class="tab-link" data-target="resources"><i class="fas fa-book"></i> الموارد والمراجع</div>
+      <div class="tab-link" data-target="conclusion"><i class="fas fa-lightbulb"></i> الخاتمة والتوصيات</div>
+      <div class="tab-link" data-target="advancedInfo"><i class="fas fa-info"></i> تفاصيل تقنية واستراتيجيات متقدمة</div>
+    </div>
+  </header>
+  <!-- ============================================== -->
+  <!-- المحتوى الرئيسي -->
+  <main>
+    <div class="container">
+      <!-- المقدمة -->
+      <section id="introduction" class="active">
+        <h1>المقدمة</h1>
+        <p>
+          يُعد هذا الدليل الشامل لإدارة وتنفيذ المشاريع مرجعاً استراتيجياً متكاملاً للمقاولين والمهندسين والفرق الإدارية، حيث يوفر منهجية مدروسة تضمن تنفيذ المشاريع بجودة عالية وفي الإطار الزمني والمالي المحدد.
+        </p>
+        <p>
+          يستعرض الدليل مراحل التخطيط، التنفيذ، المراقبة والتحكم، والتسليم مع توثيق مفصل لكل خطوة. كما يتضمن أدوات رقمية متطورة ونماذج تحليلية تُسهم في تحسين الأداء واتخاذ قرارات مبنية على بيانات دقيقة.
+        </p>
+        <div class="extended-guide">
+          <h3>أهمية الدليل</h3>
+          <p>
+            يساعد الدليل في تنظيم سير العمل وتحسين توزيع الموارد وتقليل المخاطر من خلال استخدام أحدث التقنيات في تحليل البيانات والمراقبة الرقمية. كما يوفر إطاراً عملياً لتطبيق أفضل الممارسات العالمية في إدارة المشاريع.
+          </p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم الحاسبة: حاسبة إدارة المشاريع مع عدة أنواع -->
+      <section id="calculator">
+        <h1>حاسبة إدارة المشاريع</h1>
+        <!-- حاسبة تقدير المدة والتكلفة العامة -->
+        <div class="calculator">
+          <h3>حاسبة تقدير المدة والتكلفة العامة</h3>
+          <label for="tasks">عدد المهام:</label>
+          <input type="number" id="tasks" placeholder="أدخل عدد المهام" />
+          <label for="avgDuration">متوسط مدة المهمة (أيام):</label>
+          <input type="number" id="avgDuration" placeholder="أدخل متوسط مدة المهمة" />
+          <label for="resources">عدد الموارد:</label>
+          <input type="number" id="resources" placeholder="أدخل عدد الموارد" />
+          <label for="costPerResource">تكلفة الوحدة لكل مورد (ريال):</label>
+          <input type="number" id="costPerResource" placeholder="أدخل تكلفة الوحدة لكل مورد" />
+          <button id="calcBtn">احسب</button>
+          <div class="calc-result" id="calcResult"></div>
+        </div>
+        <!-- حاسبة جدولة المشروع -->
+        <div class="calculator">
+          <h3>حاسبة جدولة المشروع</h3>
+          <label for="totalTasks">إجمالي عدد المهام:</label>
+          <input type="number" id="totalTasks" placeholder="أدخل إجمالي عدد المهام" />
+          <label for="workingDays">عدد أيام العمل في الأسبوع:</label>
+          <input type="number" id="workingDays" placeholder="أدخل عدد أيام العمل" />
+          <label for="projectWeeks">عدد أسابيع المشروع:</label>
+          <input type="number" id="projectWeeks" placeholder="أدخل عدد أسابيع المشروع" />
+          <button id="scheduleCalcBtn">احسب الجدول الزمني</button>
+          <div class="calc-result" id="scheduleResult"></div>
+        </div>
+        <!-- حاسبة تقييم المخاطر -->
+        <div class="calculator">
+          <h3>حاسبة تقييم المخاطر</h3>
+          <label for="riskFactors">عدد عوامل المخاطر:</label>
+          <input type="number" id="riskFactors" placeholder="أدخل عدد عوامل المخاطر" />
+          <label for="riskSeverity">متوسط شدة المخاطر (من 1 إلى 10):</label>
+          <input type="number" id="riskSeverity" placeholder="أدخل متوسط شدة المخاطر" />
+          <button id="riskCalcBtn">احسب مؤشر المخاطر</button>
+          <div class="calc-result" id="riskResult"></div>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- المرحلة 1: التخطيط والإدارة -->
+      <section id="phase1">
+        <h1>المرحلة 1: التخطيط والإدارة</h1>
+        <h2>إعداد خطة شاملة وتوزيع الموارد</h2>
+        <div class="guide-card">
+          <h3><i class="fas fa-clipboard-list"></i> إعداد خطة المشروع</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> وضع خطة استراتيجية مفصلة تُحدد أهداف المشروع ومراحله وجدوله الزمني والميزانية والموارد المطلوبة.</p>
+            <p><span>التفاصيل:</span> يُستخدم برنامج إدارة مشاريع متقدم لتحليل المخاطر وتحديد مؤشرات الأداء (KPIs)، مع إعداد جداول زمنية مفصلة ورسوم بيانية تفاعلية (Gantt Chart).</p>
+            <p><span>المخرجات:</span> وثيقة خطة المشروع، جداول زمنية وميزانية تقديرية وتقرير تقييم المخاطر.</p>
+            <p><span>التوصيات:</span> يجب مراجعة الخطة بانتظام وتحديثها تبعاً للتغيرات في المشروع لضمان دقة التقديرات.</p>
+          </div>
+        </div>
+        <div class="guide-card">
+          <h3><i class="fas fa-calendar-alt"></i> إعداد الجدول الزمني وإدارة الموارد</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> وضع جدول زمني دقيق وتوزيع الموارد البشرية والمالية بشكل متوازن على جميع مراحل المشروع.</p>
+            <p><span>التفاصيل:</span> تُستخدم أدوات جدولة رقمية لتتبع تقدم الأعمال وتحديث الجداول الزمنية تلقائياً بناءً على الأداء الفعلي.</p>
+            <p><span>المخرجات:</span> رسم بياني تفاعلي للجدول الزمني (Gantt Chart) وتقارير متابعة دورية للموارد والميزانية.</p>
+            <p><span>التوصيات:</span> التأكيد على التواصل المستمر بين الفرق لتحديث الجداول الزمنية ومراجعة الموارد بشكل دوري.</p>
+          </div>
+        </div>
+        <div class="new-details">
+          <h3>أدوات التخطيط الحديثة</h3>
+          <p>
+            تعتمد أدوات التخطيط الحديثة على تقنيات الذكاء الاصطناعي لتحليل البيانات التاريخية والتنبؤ بالمخاطر المحتملة. تساعد هذه الأدوات في تحسين دقة التقديرات وتوفير خطط احتياطية للتعامل مع التحديات.
+          </p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- المرحلة 2: التنفيذ -->
+      <section id="phase2">
+        <h1>المرحلة 2: التنفيذ</h1>
+        <h2>تنفيذ الأعمال وفقاً للمخططات مع إدارة الجودة</h2>
+        <div class="guide-card">
+          <h3><i class="fas fa-cogs"></i> إدارة الأعمال الميدانية</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> تنظيم وتنفيذ الأعمال الميدانية بناءً على المخططات الهندسية مع متابعة جودة التنفيذ بشكل مستمر.</p>
+            <p><span>التفاصيل:</span> يتم استخدام أنظمة المراقبة الرقمية لجمع البيانات الميدانية وتحليلها باستخدام تقنيات تحليلية متقدمة، مما يساعد في الكشف المبكر عن الانحرافات.</p>
+            <p><span>المخرجات:</span> تقارير متابعة دورية، رسوم بيانية توضح تقدم الأعمال، وتنبيهات فورية عند ظهور مشكلات.</p>
+            <p><span>التوصيات:</span> يُنصح بعقد اجتماعات يومية لمراجعة الأداء وتحديث الخطط الميدانية بشكل دوري.</p>
+          </div>
+        </div>
+        <div class="guide-card">
+          <h3><i class="fas fa-tools"></i> إدارة الموارد والميزانية</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> توزيع الموارد المالية والبشرية بكفاءة على جميع مراحل التنفيذ لضمان استدامة التمويل وعدم تجاوز الميزانية.</p>
+            <p><span>التفاصيل:</span> تُستخدم برامج محاسبية متطورة لتتبع الإنفاق وتحليل الكفاءة المالية مع مقارنة النتائج مع المعايير العالمية.</p>
+            <p><span>المخرجات:</span> تقارير مالية مفصلة، رسم بياني يوضح توزيع الميزانية، ونظام متابعة إنفاق يعتمد على مؤشرات أداء مالية دقيقة.</p>
+            <p><span>التوصيات:</span> مراجعة دورية للميزانية مع تحديث الخطط حسب تغيرات المشروع وتحليل الإنفاق بدقة.</p>
+          </div>
+        </div>
+        <div class="extended-content">
+          <h3>تقنيات التنفيذ المتقدمة</h3>
+          <p>
+            تُستخدم نظم إدارة المشاريع الرقمية لتحديث الخطط في الزمن الحقيقي، مع دمج تقنيات الاستشعار عن بُعد لتحليل الأداء الميداني وتقديم تقارير فورية. يساعد هذا التكامل في تحسين دقة التنفيذ وتقليل المخاطر التشغيلية.
+          </p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- المرحلة 3: المراقبة والتحكم -->
+      <section id="phase3">
+        <h1>المرحلة 3: المراقبة والتحكم</h1>
+        <h2>متابعة الأداء وإجراء التعديلات لتحسين الجودة</h2>
+        <div class="guide-card">
+          <h3><i class="fas fa-chart-line"></i> نظام المراقبة المتكامل</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> نظام رقمي يجمع البيانات من كافة مراحل المشروع ويحللها باستخدام برمجيات تحليل متقدمة لتوفير تقارير أداء فورية.</p>
+            <p><span>التفاصيل:</span> يُستخدم نظام المراقبة لوحات معلومات تفاعلية (Dashboard) تُظهر مقارنة بين الأداء الفعلي والخطط الموضوعة مع تنبيهات تلقائية عند ظهور انحرافات.</p>
+            <p><span>المخرجات:</span> تقارير دورية ورسوم بيانية تفاعلية مع توصيات فورية لتحسين الأداء.</p>
+            <p><span>التوصيات:</span> يجب دمج النظام مع أنظمة ERP للحصول على رؤية شاملة وتحليل متكامل للبيانات.</p>
+          </div>
+        </div>
+        <div class="guide-card">
+          <h3><i class="fas fa-tasks"></i> نظام التحكم في الجودة</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> نظام يركز على ضمان جودة كافة الأعمال والمواد المستخدمة في المشروع باستخدام معايير دولية وتقنيات فحص حديثة.</p>
+            <p><span>التفاصيل:</span> يعتمد النظام على جداول متابعة جودة مفصلة مع تحليل رقمي لمقارنة النتائج مع المعايير الدولية وتقديم توصيات تصحيحية فورية.</p>
+            <p><span>المخرجات:</span> تقارير جودة تفصيلية ورسوم بيانية توضح مستوى الجودة والتوصيات الفنية لتحسين الأداء.</p>
+            <p><span>التوصيات:</span> يجب تطبيق النظام بشكل دوري وتحديث الإجراءات بناءً على البيانات الميدانية.</p>
+          </div>
+        </div>
+        <div class="extra-section">
+          <h3>أدوات المراقبة الحديثة</h3>
+          <p>
+            تعتمد أدوات المراقبة الحديثة على تقنيات إنترنت الأشياء (IoT) وتحليل البيانات الكبيرة (Big Data) لجمع معلومات فورية من الموقع وتقديم تقارير تفاعلية تساعد في اتخاذ القرارات الفورية.
+          </p>
+          <p>
+            تُدمج هذه الأدوات مع أنظمة التحكم في الجودة لتوفير رؤية شاملة عن الأداء وتحسين عمليات المتابعة.
+          </p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- المرحلة 4: التسليم والتوثيق -->
+      <section id="phase4">
+        <h1>المرحلة 4: التسليم والتوثيق</h1>
+        <h2>إتمام المشروع مع توثيق كافة العمليات والتسليم النهائي</h2>
+        <div class="guide-card">
+          <h3><i class="fas fa-flag-checkered"></i> تسليم المشروع</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> عملية تسليم المشروع للعميل بعد التأكد من استيفاء كافة معايير الجودة والسلامة، مع إعداد تقرير نهائي مفصل.</p>
+            <p><span>التفاصيل:</span> يُستخدم نظام توثيق رقمي متكامل لجمع كافة النتائج والبيانات من الاختبارات والمراجعات، مع إصدار شهادات الاعتماد.</p>
+            <p><span>المخرجات:</span> وثائق تسليم المشروع، تقارير جودة وشهادات اعتماد.</p>
+            <p><span>التوصيات:</span> التأكد من توثيق كل مرحلة وتحديث التقارير بشكل دوري لضمان شفافية العمل.</p>
+          </div>
+        </div>
+        <div class="guide-card">
+          <h3><i class="fas fa-book"></i> توثيق المشروع والتقارير النهائية</h3>
+          <div class="guide-details">
+            <p><span>التعريف:</span> إعداد وثائق شاملة توثق كافة مراحل المشروع، بما في ذلك التخطيط، التنفيذ، المراقبة، والتسليم.</p>
+            <p><span>التفاصيل:</span> يتم استخدام تقنيات التوثيق الرقمي لإنشاء تقارير تفاعلية تشمل جداول ورسوم بيانية ومقارنات تحليلية بين النتائج المخططة والتنفيذية.</p>
+            <p><span>المخرجات:</span> ملف توثيق رقمي متكامل يشمل كافة المستندات والبيانات المتعلقة بالمشروع.</p>
+            <p><span>التوصيات:</span> يُنصح بتحديث الوثائق بانتظام وتخزينها في أنظمة آمنة لتكون مرجعاً مستقبلياً شاملاً.</p>
+          </div>
+        </div>
+        <div class="extended-content">
+          <h3>استراتيجيات التسليم والتوثيق المتقدمة</h3>
+          <p>
+            تعتمد استراتيجيات التسليم الحديثة على استخدام نظم إدارة المحتوى الرقمية التي تتيح توثيقاً تلقائياً لكل مرحلة من المشروع، مع تقديم تقارير تحليلية تفاعلية تدعم عملية المتابعة والصيانة المستقبلية.
+          </p>
+          <p>
+            يُدمج هذا النظام مع تقنيات التحكم الذكي لتوفير تنبيهات فورية وتحديثات آنية عند ظهور أي مشكلات بعد التسليم.
+          </p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم الأمثلة التوضيحية (30 مثال) -->
+      <section id="examples">
+        <h1>أمثلة  توضيحية تفاعلية ومتنوعة</h1>
+       
+        <!-- أمثلة 1 إلى 15 (موجودة سابقاً) -->
+        <!-- مثال 1 -->
+        <div class="example">
+          <h4>المثال 1: تحليل جدوى خطة المشروع</h4>
+          <div class="explanation">
+            <p>
+              في هذا المثال يتم استعراض كيفية تحليل جدوى خطة المشروع باستخدام بيانات تاريخية ونماذج تحليلية لتحديد مدى توافق الخطة مع الأهداف الاستراتيجية وتوقع المخاطر.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart1"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني توزيع المخاطر المحتملة مع مقارنة بين النسب المخططة والنسب الفعلية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتعديل الخطة لتقليل المخاطر التي تجاوزت المعايير المحددة وتحسين توزيع الموارد.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              تُبرز الدراسة أهمية التحليل الدقيق للجدوى وتحديث الخطط باستمرار لضمان تنفيذ المشروع بنجاح.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 2 -->
+        <div class="example">
+          <h4>المثال 2: تقدير تكلفة المشروع باستخدام النماذج الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يتم في هذا المثال استخدام بيانات التكاليف التاريخية ونماذج تحليلية متقدمة لتقدير تكلفة المشروع بدقة، مع إدخال معطيات مثل عدد المهام ومتوسط المدة لكل مهمة وعدد الموارد.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart2"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني الفروقات بين التكلفة المقدرة والتكلفة الفعلية مع تحليل للعوامل التي أدت إلى الانحراف.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              تُوصى الدراسة بزيادة دقة البيانات المُدخلة واستخدام أنظمة متابعة التكلفة في الزمن الحقيقي.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على ضرورة تطبيق نماذج تحليل متقدمة لتقدير التكاليف بشكل دقيق وشفاف.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 3 -->
+        <div class="example">
+          <h4>المثال 3: تقييم توزيع الموارد البشرية</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تحليل توزيع الموارد البشرية في المشروع باستخدام بيانات أداء سابقة ونماذج تحليلية متقدمة لتحديد كفاءة توزيع العمل.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart3"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني مدى تباين كفاءة الموارد في المراحل المختلفة مع تسليط الضوء على الفجوات المحتملة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بإعادة توزيع المهام وتحسين التدريب لتطوير أداء الفرق البشرية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية التحليل الدقيق لتوزيع الموارد البشرية لضمان تحقيق الكفاءة التشغيلية.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 4 -->
+        <div class="example">
+          <h4>المثال 4: تقييم جدوى الجدول الزمني للمشروع</h4>
+          <div class="explanation">
+            <p>
+              يُقدم المثال كيفية تقييم الجدول الزمني للمشروع باستخدام تقنيات التحليل الرقمي لتحديد مدى توافق مواعيد تنفيذ المهام مع الأهداف المخططة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart4"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني الفجوات الزمنية بين الخطة والتنفيذ مع تفسير لأسباب التأخير المحتملة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتحديث الجدول الزمني بشكل دوري وتعديل المواعيد بناءً على البيانات الحية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية المراقبة الزمنية المستمرة لضمان تنفيذ المشروع ضمن المواعيد المحددة.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 5 -->
+        <div class="example">
+          <h4>المثال 5: تحليل أداء الموارد المالية</h4>
+          <div class="explanation">
+            <p>
+              يُستعرض المثال كيفية تحليل الأداء المالي للمشروع باستخدام بيانات الإنفاق والتكاليف مع مقارنة النتائج مع الميزانية المخططة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart5"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني التباين بين النفقات الفعلية والمخططة ويكشف عن أي تجاوزات في الميزانية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              تُوصى الدراسة بتطبيق نظام متابعة مالية دورية واستخدام مؤشرات أداء مالية لضبط الإنفاق.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية المراقبة المالية المستمرة لتحقيق الكفاءة الاقتصادية في المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 6 -->
+        <div class="example">
+          <h4>المثال 6: تقييم فعالية تقنيات الذكاء الاصطناعي في توقع المخاطر</h4>
+          <div class="explanation">
+            <p>
+              يتم في هذا المثال استعراض كيفية استخدام الذكاء الاصطناعي لتحليل بيانات المشروع وتوقع المخاطر المحتملة مع تقديم توصيات وقائية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart6"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني العلاقة بين البيانات التاريخية والتنبؤ بالمخاطر مع تحليل تفصيلي للنقاط الحرجة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتطبيق تقنيات تحليل تنبؤية متقدمة لتقليل المخاطر وتحسين استجابة المشروع.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية الدمج بين الذكاء الاصطناعي وإدارة المشروع لتوقع المشكلات قبل وقوعها.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 7 -->
+        <div class="example">
+          <h4>المثال 7: قياس كفاءة استخدام التقنيات الرقمية في إدارة المشاريع</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تقييم كفاءة الأنظمة الرقمية في تحسين أداء المشروع من خلال مقارنة الأداء الفعلي مع البيانات المتوقعة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart7"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مدى توافق أداء الأنظمة الرقمية مع المؤشرات الرئيسية ويشرح الفروقات المكتشفة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتحديث الأنظمة الرقمية بانتظام والتأكد من دمجها مع تقنيات تحليل متقدمة.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية التكنولوجيا الرقمية في رفع كفاءة إدارة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 8 -->
+        <div class="example">
+          <h4>المثال 8: تحليل جودة التنفيذ الميداني</h4>
+          <div class="explanation">
+            <p>
+              يُقدم المثال دراسة تحليلية لقياس جودة التنفيذ الميداني باستخدام بيانات من أجهزة الاستشعار وأنظمة المراقبة الرقمية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart8"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني اختلاف مستويات الجودة في التنفيذ بين الأقسام المختلفة مع تفسير للفوارق.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتحسين عمليات التدريب والتواصل بين الفرق الميدانية لضمان جودة التنفيذ.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُؤكد المثال على ضرورة مراقبة جودة التنفيذ وتحديثها وفقاً للمعايير العالمية.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 9 -->
+        <div class="example">
+          <h4>المثال 9: تحليل الأداء الزمني للمشروع</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تحليل الأداء الزمني باستخدام جداول زمنية تفاعلية ونماذج تحليل متقدمة لتحديد مدى الالتزام بالمواعيد.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart9"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني انحرافات الجدول الزمني مع تحليل للأسباب المحتملة لتلك الانحرافات.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بإعادة جدولة المهام وتحديث الخطط الزمنية بناءً على الأداء الفعلي.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يبرز المثال أهمية المتابعة الزمنية المستمرة لتحقيق الالتزام بالمواعيد.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 10 -->
+        <div class="example">
+          <h4>المثال 10: تقييم إدارة المخاطر في المشروع</h4>
+          <div class="explanation">
+            <p>
+              يشرح المثال كيفية تقييم المخاطر باستخدام أدوات تحليل متقدمة لتحديد نقاط الضعف المحتملة مع تقديم توصيات وقائية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart10"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني توزيع المخاطر مع مقارنة بين المخاطر المتوقعة والفعلية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق استراتيجيات تحليل تنبؤية لتقليل المخاطر وتحسين استجابة المشروع.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية إدارة المخاطر كجزء أساسي من نجاح المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 11 -->
+        <div class="example">
+          <h4>المثال 11: تحليل الفروق بين التكاليف المخططة والفعلية</h4>
+          <div class="explanation">
+            <p>
+              يُستعرض المثال كيفية مقارنة التكاليف المخططة مع التكاليف الفعلية باستخدام جداول ورسوم بيانية تحليلية لتحديد الفوارق المالية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart11"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني الفروق المالية ويوضح أسباب التجاوزات في الإنفاق.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق نظام متابعة مالي دوري وتحديث الميزانية بناءً على النتائج.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على ضرورة التدقيق المالي المستمر لضمان الالتزام بالميزانية.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 12 -->
+        <div class="example">
+          <h4>المثال 12: تحسين توزيع الموارد البشرية باستخدام النماذج الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يوضح المثال كيفية استخدام برامج التخطيط الرقمي لتحليل توزيع الموارد البشرية وتحديد كفاءة الفرق وتوزيع المهام.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart12"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مقارنة بين الأداء الفعلي والكفاءة المتوقعة للموارد البشرية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              تُوصى الدراسة بتعديل توزيع المهام وتقديم برامج تدريبية لتعزيز الأداء.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يبرز المثال أهمية استخدام التقنيات الرقمية في تحسين توزيع الموارد البشرية.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 13 -->
+        <div class="example">
+          <h4>المثال 13: تقييم فعالية التواصل بين فرق العمل</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية قياس كفاءة التواصل بين فرق العمل باستخدام استبيانات رقمية ونماذج تحليل أداء.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart13"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني مستويات التواصل ويبرز العوامل التي تسهم في تحسين التعاون بين الفرق.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتطبيق منصات تواصل متطورة وتدريب الفرق على استخدام تقنيات الاتصال الفعّالة.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية تحسين التواصل لضمان تنفيذ المشروع بسلاسة.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 14 -->
+        <div class="example">
+          <h4>المثال 14: تحليل فعالية نظم المراقبة الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يُوضح المثال كيفية تقييم فعالية نظم المراقبة الرقمية المستخدمة في المشروع من خلال مقارنة البيانات الفعلية مع المخططات.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart14"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مستوى التوافق بين الأداء الفعلي والمخطط مع تسليط الضوء على الفجوات.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              تُوصى الدراسة بتحديث نظم المراقبة وتطويرها لتوفير بيانات أكثر دقة وتحليل فوري للمخاطر.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية استخدام نظم المراقبة الرقمية لتحسين إدارة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 15 -->
+        <div class="example">
+          <h4>المثال 15: تحسين عمليات التسليم والتوثيق باستخدام الأنظمة الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية استخدام تقنيات التوثيق الرقمي لإنشاء ملف شامل للمشروع يتضمن كافة المراحل مع تقارير تفاعلية ورسوم بيانية تحليلية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart15"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مقارنة بين البيانات المخططة والبيانات الفعلية في مرحلة التسليم مع تحليل دقيق للفوارق.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق نظم توثيق رقمية متكاملة لضمان شفافية وتسليم المشروع بأعلى جودة.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يبرز المثال أهمية توثيق المشروع بشكل دقيق لتسهيل عمليات المتابعة والصيانة المستقبلية.
+            </p>
+          </div>
+        </div>
+        <!-- أمثلة 16 إلى 30 (تكرار الكتلة مع محتوى متنوع) -->
+        <!-- مثال 16 -->
+        <div class="example">
+          <h4>المثال 16: تقييم جدوى استخدام نظم التحليل الرقمي في التخطيط</h4>
+          <div class="explanation">
+            <p>
+              يُوضح المثال كيفية استخدام نظم التحليل الرقمي لتحليل بيانات المشاريع السابقة وتحديد الفجوات في خطط التخطيط.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart16"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مقارنات بين خطط المشروع الفعلية والنماذج التنبؤية مع تحليل دقيق للفوارق.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتحديث خطط المشروع بناءً على النتائج الرقمية لتحقيق توافق أفضل.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية الاستفادة من البيانات الرقمية لتحسين التخطيط.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 17 -->
+        <div class="example">
+          <h4>المثال 17: تحليل استراتيجيات تحسين كفاءة الموارد</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تحليل وتقييم استراتيجيات توزيع الموارد باستخدام تقنيات تحليل متقدمة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart17"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني توزيع الموارد وكفاءة استخدامها عبر مختلف أقسام المشروع.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              تُوصى الدراسة بتعديل استراتيجيات توزيع الموارد لتحسين الكفاءة التشغيلية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية تحسين إدارة الموارد لتحقيق أداء أفضل.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 18 -->
+        <div class="example">
+          <h4>المثال 18: تقييم تأثير التحديثات التكنولوجية على أداء المشروع</h4>
+          <div class="explanation">
+            <p>
+              يُستعرض المثال كيف تُحسن التحديثات التكنولوجية (مثل استخدام الأنظمة الذكية) من أداء المشروع وتحقيق النتائج المتوقعة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart18"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مقارنة بين الأداء قبل وبعد تطبيق التحديثات مع توضيح لنقاط التحسن.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتطبيق التحديثات التكنولوجية باستمرار لتحسين الأداء وتقليل المخاطر.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية مواكبة التطورات التكنولوجية في إدارة المشاريع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 19 -->
+        <div class="example">
+          <h4>المثال 19: تحليل فعالية التواصل الداخلي</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيف يمكن استخدام تقنيات الاستبيانات الرقمية ونماذج تحليل الأداء لتقييم فعالية التواصل بين فرق العمل.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart19"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مستويات التواصل ويحدد الفجوات التي تؤثر على كفاءة العمل.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق منصات تواصل متطورة وتقديم دورات تدريبية لتعزيز التواصل.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية تحسين التواصل لتحقيق تنسيق أفضل بين الفرق.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 20 -->
+        <div class="example">
+          <h4>المثال 20: تقدير مؤشرات الأداء الرئيسية للمشروع</h4>
+          <div class="explanation">
+            <p>
+              يُوضح المثال كيفية استخدام مؤشرات الأداء الرئيسية (KPIs) لتقييم تقدم المشروع ومقارنتها مع الأهداف الموضوعة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart20"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني التباينات بين مؤشرات الأداء الفعلية والمتوقعة مع تفسير تفصيلي لكل مؤشر.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق نظام متابعة دوري لمؤشرات الأداء وتحديثها بناءً على البيانات الحية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية المؤشرات الدقيقة في توجيه إدارة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 21 -->
+        <div class="example">
+          <h4>المثال 21: تحليل الجدوى الاقتصادية للمشروع</h4>
+          <div class="explanation">
+            <p>
+              يُقدم المثال دراسة تحليلية لتقييم الجدوى الاقتصادية للمشروع بناءً على التكاليف المتوقعة والعوائد المحتملة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart21"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني مقارنة بين التكاليف والعوائد مع تحليل لنقاط التعادل والعائد الاستثماري.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بإعادة تقييم الجدوى الاقتصادية بشكل دوري وتعديل الخطط المالية حسب النتائج.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية الدراسة الاقتصادية الدقيقة لضمان استدامة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 22 -->
+        <div class="example">
+          <h4>المثال 22: تحليل فعالية أنظمة الإدارة الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تقييم فعالية أنظمة الإدارة الرقمية في تحسين تنظيم المشروع وتسهيل متابعة الأداء.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart22"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني نسب تحسين الأداء بعد تطبيق الأنظمة الرقمية مقارنةً بالطريقة التقليدية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتطبيق الأنظمة الرقمية باستمرار والتحديث الدوري للبرمجيات المستخدمة.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية التحول الرقمي في تحسين كفاءة إدارة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 23 -->
+        <div class="example">
+          <h4>المثال 23: تقييم استخدام نظم التحليل التنبؤي</h4>
+          <div class="explanation">
+            <p>
+              يُوضح المثال كيفية استخدام نظم التحليل التنبؤي لتوقع المشاكل المستقبلية في المشروع بناءً على بيانات سابقة وتحليل رقمي متقدم.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart23"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مدى دقة التوقعات وكيفية تطابقها مع النتائج الفعلية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق نظم التحليل التنبؤي مع تحديث النماذج بشكل دوري لتحقيق توقعات دقيقة.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية التنبؤ المستقبلي لتفادي المخاطر وتحسين استجابة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 24 -->
+        <div class="example">
+          <h4>المثال 24: تقييم أداء نظم التخطيط وإدارة الموارد</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية قياس كفاءة نظم التخطيط الرقمية في تحسين توزيع الموارد وتحقيق نتائج مرضية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart24"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مقارنة بين توزيع الموارد الفعلي والمخطط مع تحليل للفجوات.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتحديث نظم التخطيط باستمرار مع إعادة توزيع الموارد بناءً على النتائج.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية نظم التخطيط الرقمية في تحسين إدارة الموارد.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 25 -->
+        <div class="example">
+          <h4>المثال 25: تحليل تأثير التكنولوجيا على استدامة المشروع</h4>
+          <div class="explanation">
+            <p>
+              يُقدم المثال دراسة حول كيفية تأثير التكنولوجيات الحديثة على تحسين استدامة المشروع من خلال تقليل الهدر وزيادة الكفاءة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart25"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني العلاقة بين التكنولوجيا وكفاءة المشروع مع تسليط الضوء على مؤشرات الاستدامة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق تقنيات مستدامة واعتماد أنظمة متابعة دائمة لقياس كفاءة التكنولوجيا.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية التكنولوجيا في تعزيز استدامة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 26 -->
+        <div class="example">
+          <h4>المثال 26: تقييم فعالية استراتيجيات التحسين المستمر</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تقييم أثر استراتيجيات التحسين المستمر على أداء المشروع مع تحليل دوري للنتائج.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart26"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني معدل التحسن في الأداء مع مقارنة دورية بين النتائج القديمة والحديثة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطبيق استراتيجيات التحسين المستمر بشكل دوري ومراقبة الأداء باستخدام مؤشرات رقمية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية الاستمرارية في تحسين الأداء لتحقيق نتائج متفوقة.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 27 -->
+        <div class="example">
+          <h4>المثال 27: تحليل استخدام نظم إدارة المخاطر الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يُوضح المثال كيفية استخدام نظم إدارة المخاطر الرقمية لتحديد وتقييم المخاطر المحتملة واتخاذ الإجراءات الوقائية.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart27"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني توزيع المخاطر وتأثيرها على المشروع مع مقارنة بين البيانات المتوقعة والفعلية.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتحديث نظم إدارة المخاطر بشكل دوري واستخدام تقنيات التحليل التنبؤي.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية إدارة المخاطر باستخدام الأنظمة الرقمية لتحسين الاستجابة.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 28 -->
+        <div class="example">
+          <h4>المثال 28: تقييم تأثير العوامل الخارجية على المشروع</h4>
+          <div class="explanation">
+            <p>
+              يستعرض المثال كيفية تقييم تأثير العوامل الخارجية مثل الظروف المناخية والبيئية على أداء المشروع باستخدام بيانات تحليلية متقدمة.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart28"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني كيفية تفاعل العوامل الخارجية مع الأداء الفعلي للمشروع وتحديد الفجوات.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتضمين تحليل بيئي دوري ضمن نظام إدارة المشروع لتوقع تأثير العوامل الخارجية.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على ضرورة متابعة العوامل الخارجية لتفادي تأثيرها السلبي.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 29 -->
+        <div class="example">
+          <h4>المثال 29: تحليل كفاءة الأنظمة الإدارية المتكاملة</h4>
+          <div class="explanation">
+            <p>
+              يُستعرض المثال كيفية تقييم كفاءة الأنظمة الإدارية المتكاملة المستخدمة في المشروع من خلال تحليل أداء الإدارات المختلفة وتفاعلها معاً.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart29"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يوضح الرسم البياني مقارنة بين أداء الإدارات مع إبراز نقاط القوة والضعف في النظام الإداري.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُوصى بتطوير آليات الربط بين الإدارات واستخدام أنظمة متكاملة لتحسين التنسيق.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يؤكد المثال على أهمية التكامل الإداري في تحسين إدارة المشروع.
+            </p>
+          </div>
+        </div>
+        <!-- مثال 30 -->
+        <div class="example">
+          <h4>المثال 30: تقييم النجاح العام للمشروع باستخدام مؤشرات الأداء الرقمية</h4>
+          <div class="explanation">
+            <p>
+              يُقدم المثال طريقة شاملة لتقييم نجاح المشروع من خلال استخدام مؤشرات الأداء الرقمية (KPIs) وتحليل النتائج بشكل متكامل.
+            </p>
+          </div>
+          <div class="chart-section">
+            <canvas id="exChart30"></canvas>
+          </div>
+          <div class="interpretation">
+            <p>
+              يُظهر الرسم البياني مدى تحقيق المشروع للأهداف الموضوعة مع مقارنة بين المؤشرات المختلفة.
+            </p>
+          </div>
+          <div class="recommendations">
+            <p>
+              يُنصح بتطبيق نظام تقييم شامل يعتمد على بيانات رقمية لتحديث الأداء وتحقيق نتائج أفضل.
+            </p>
+          </div>
+          <div class="conclusion">
+            <p>
+              يُبرز المثال أهمية قياس النجاح العام للمشروع باستخدام مؤشرات أداء دقيقة وموثوقة.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم الأسئلة الشائعة (30 سؤال لإدارة المشاريع) -->
+      <section id="faq">
+        <h1>الأسئلة الشائعة (30 سؤال لإدارة المشاريع)</h1>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما أهمية التخطيط الدقيق للمشروع؟</h4>
+          <p>يساهم التخطيط الدقيق في تحديد الأهداف والموارد والمخاطر مما يقلل من فرص الفشل ويضمن تنفيذ المشروع بنجاح.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف تؤثر إدارة المخاطر على نجاح المشروع؟</h4>
+          <p>تساعد إدارة المخاطر في الكشف المبكر عن المشاكل المحتملة واتخاذ إجراءات وقائية لتفاديها، مما يحسن فرص نجاح المشروع.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما الأدوات الرقمية المستخدمة في تخطيط المشاريع؟</h4>
+          <p>تتضمن الأدوات برامج مثل Microsoft Project وAsana وTrello، بالإضافة إلى نظم تحليل البيانات والذكاء الاصطناعي.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يتم تحديد الميزانية المناسبة للمشروع؟</h4>
+          <p>يتم تحديد الميزانية بناءً على تحليل مفصل للتكاليف التاريخية وتقديرات النفقات المستقبلية مع مراعاة المخاطر المحتملة.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما أهمية الجدول الزمني في إدارة المشروع؟</h4>
+          <p>يساعد الجدول الزمني في تنظيم سير العمل وضمان الالتزام بالمواعيد النهائية وتحديد أولويات المهام.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يمكن متابعة تنفيذ المشروع بشكل دوري؟</h4>
+          <p>يمكن متابعة التنفيذ باستخدام لوحات معلومات تفاعلية تعرض الأداء الفعلي مقارنة مع الخطط الموضوعة، مع تنبيهات فورية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هو دور التحليل الإحصائي في إدارة المشاريع؟</h4>
+          <p>يساعد التحليل الإحصائي في الكشف عن الأنماط والتباينات في الأداء، مما يمكّن من اتخاذ قرارات مبنية على بيانات دقيقة.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف تؤثر الظروف البيئية على تنفيذ المشروع؟</h4>
+          <p>تؤثر الظروف البيئية مثل الطقس والموقع الجغرافي على تنفيذ الأعمال، ولذلك يجب أخذها في الاعتبار أثناء التخطيط.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما أهمية التواصل بين فرق العمل في المشروع؟</h4>
+          <p>يساهم التواصل الفعّال في تنسيق الأنشطة وتحديث الجداول الزمنية وإدارة الموارد بكفاءة عالية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يتم إدارة التكاليف التشغيلية للمشروع؟</h4>
+          <p>تُدار التكاليف عبر تتبع النفقات باستخدام برامج محاسبية متطورة ومراجعة دورية للميزانية مع تطبيق إجراءات توفير التكاليف.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هي مؤشرات الأداء الرئيسية (KPIs) في إدارة المشاريع؟</h4>
+          <p>تشمل مؤشرات الأداء الرئيسية معدلات الإنجاز، الانحراف في الجدول الزمني، والكفاءة المالية التي تساعد في تقييم تقدم المشروع.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف تُستخدم التقنيات الرقمية في تحسين إدارة المشروع؟</h4>
+          <p>تُستخدم التقنيات الرقمية لجمع وتحليل البيانات وتحديث الخطط بشكل فوري مما يُسهم في تحسين جودة التنفيذ وإدارة المخاطر.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هي أفضل الممارسات العالمية لإدارة المشاريع؟</h4>
+          <p>تشمل أفضل الممارسات التخطيط الدقيق، استخدام نظم المراقبة الرقمية، إدارة المخاطر بفعالية، وتحديث الخطط بناءً على التحليل المستمر.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يتم تقييم جودة تنفيذ المشروع؟</h4>
+          <p>يتم تقييم الجودة عبر اختبارات مراقبة الجودة، التحليل الإحصائي، ومقارنة الأداء مع المعايير الدولية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما دور التدريب المستمر في إدارة المشاريع؟</h4>
+          <p>يساهم التدريب المستمر في رفع كفاءة الفرق وتحسين مهارات الإدارة والتخطيط مما يؤدي إلى تنفيذ المشاريع بشكل أكثر احترافية.</p>
+        </div>
+        <!-- 15 سؤالاً إضافياً -->
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف تؤثر إدارة المخاطر على استمرارية المشروع؟</h4>
+          <p>تُساعد إدارة المخاطر في الكشف المبكر عن المشاكل المحتملة واتخاذ إجراءات وقائية تضمن استمرارية المشروع دون انقطاع.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هي التقنيات الحديثة المستخدمة في رصد أداء المشروع؟</h4>
+          <p>تستخدم الأنظمة الرقمية المستندة إلى إنترنت الأشياء والذكاء الاصطناعي لجمع وتحليل بيانات الأداء في الزمن الحقيقي.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يمكن تحسين إدارة الموارد البشرية في المشروع؟</h4>
+          <p>يمكن تحسين إدارة الموارد البشرية عبر استخدام أنظمة تخطيط موارد المؤسسات (ERP) وبرمجيات تحليل أداء الفرق لتوزيع المهام بفعالية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما أهمية التخطيط المالي في نجاح المشروع؟</h4>
+          <p>يُعد التخطيط المالي الدقيق أساساً لضمان استمرارية التمويل وتجنب التجاوزات المالية التي قد تؤثر على سير المشروع.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يتم استخدام البيانات في تحسين إدارة المشروع؟</h4>
+          <p>تُستخدم البيانات لتحليل الأداء، تحديد الأنماط، وتوقع المخاطر مما يُتيح اتخاذ قرارات مبنية على معلومات دقيقة وموضوعية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما التحديات الرئيسية في إدارة المشاريع الكبيرة؟</h4>
+          <p>تشمل التحديات تنسيق الفرق، إدارة التكاليف، مواجهة المخاطر البيئية والتكنولوجية، وضمان الالتزام بالمواعيد النهائية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يمكن تحسين التواصل بين الفرق المختلفة في المشروع؟</h4>
+          <p>يُعزز التواصل باستخدام منصات إدارة المشاريع الرقمية التي تتيح مشاركة البيانات والتحديثات بشكل مستمر بين جميع الفرق.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هو الدور الذي يلعبه التحليل التنبؤي في إدارة المشاريع؟</h4>
+          <p>يساهم التحليل التنبؤي في توقع المخاطر والتحديات المستقبلية مما يسمح باتخاذ إجراءات وقائية مبكرة وتعديل الخطط حسب الحاجة.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> كيف يتم قياس نجاح المشروع بعد التسليم؟</h4>
+          <p>يتم قياس النجاح عبر تقييم جودة التسليم، رضا العميل، والالتزام بالجداول الزمنية والميزانية، مع مقارنة النتائج مع مؤشرات الأداء الرئيسية.</p>
+        </div>
+        <div class="faq-item">
+          <h4><i class="fas fa-question-circle"></i> ما هي أفضل الممارسات في توثيق المشروع؟</h4>
+          <p>تشمل أفضل الممارسات توثيق جميع مراحل المشروع باستخدام نظم إدارة المحتوى الرقمية وإنشاء تقارير تفصيلية قابلة للتحديث المستمر.</p>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم الموارد والمراجع -->
+      <section id="resources">
+        <h1>الموارد والمراجع</h1>
+        <div class="resources">
+          <ul>
+            <li><a href="https://www.astm.org" target="_blank"><i class="fas fa-external-link-alt"></i> ASTM International</a></li>
+            <li><a href="https://www.iso.org" target="_blank"><i class="fas fa-external-link-alt"></i> International Organization for Standardization (ISO)</a></li>
+            <li><a href="https://www.bsigroup.com" target="_blank"><i class="fas fa-external-link-alt"></i> British Standards Institution (BSI)</a></li>
+            <li><a href="https://www.epa.gov" target="_blank"><i class="fas fa-external-link-alt"></i> United States Environmental Protection Agency (EPA)</a></li>
+            <li><a href="https://www.who.int" target="_blank"><i class="fas fa-external-link-alt"></i> World Health Organization (WHO)</a></li>
+            <li><a href="https://www.iec.ch" target="_blank"><i class="fas fa-external-link-alt"></i> International Electrotechnical Commission (IEC)</a></li>
+            <li><a href="https://www.nfpa.org" target="_blank"><i class="fas fa-external-link-alt"></i> National Fire Protection Association (NFPA)</a></li>
+            <li><a href="https://www.concrete.org" target="_blank"><i class="fas fa-external-link-alt"></i> American Concrete Institute (ACI)</a></li>
+            <li><a href="https://www.wbdg.org" target="_blank"><i class="fas fa-external-link-alt"></i> Whole Building Design Guide</a></li>
+            <li><a href="https://www.corrosion.org" target="_blank"><i class="fas fa-external-link-alt"></i> NACE International (Corrosion)</a></li>
+            <li><a href="https://www.energystar.gov" target="_blank"><i class="fas fa-external-link-alt"></i> ENERGY STAR</a></li>
+            <li><a href="https://www.sei.org" target="_blank"><i class="fas fa-external-link-alt"></i> Structural Engineering Institute (SEI)</a></li>
+            <li><a href="https://www.sustainablebuildingsdirectory.com" target="_blank"><i class="fas fa-external-link-alt"></i> Sustainable Buildings Directory</a></li>
+            <li><a href="https://www.smartbuildingsmagazine.com" target="_blank"><i class="fas fa-external-link-alt"></i> Smart Buildings Magazine</a></li>
+            <li><a href="https://www.buildingperformanceconference.com" target="_blank"><i class="fas fa-external-link-alt"></i> Building Performance Conference</a></li>
+          </ul>
+        </div>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم الخاتمة والتوصيات -->
+      <section id="conclusion">
+        <h1>الخاتمة والتوصيات</h1>
+        <p>
+          يُظهر هذا الدليل أن النجاح في إدارة وتنفيذ المشاريع يعتمد على التخطيط الدقيق، التنفيذ المنضبط، والمراقبة المستمرة باستخدام أحدث التقنيات والمعايير الدولية. إن تطبيق توصيات الدليل واستخدام الأنظمة الرقمية المتطورة يضمن تحقيق مشاريع بجودة عالية وكفاءة تشغيلية مثالية.
+        </p>
+        <ul>
+          <li>الاستثمار في نظم إدارة المشاريع الرقمية وتحليل البيانات المتقدم.</li>
+          <li>الالتزام بالمعايير الدولية وتحديث الخطط بشكل دوري.</li>
+          <li>استخدام تقنيات الذكاء الاصطناعي لتحليل المخاطر وتحسين توزيع الموارد.</li>
+          <li>تنفيذ اختبارات متابعة دورية وتوثيق النتائج بشكل مفصل.</li>
+          <li>توفير تدريب مستمر للفرق الإدارية والفنية لتحسين الأداء.</li>
+          <li>اعتماد حلول ذكية لتقليل التكاليف التشغيلية وتحقيق الاستدامة البيئية.</li>
+        </ul>
+        <p>
+          نأمل أن يشكل هذا الدليل مرجعاً عملياً شاملاً يرتقي بعملية إدارة وتنفيذ المشاريع إلى مستوى احترافي يضمن النجاح والاستدامة.
+        </p>
+        <button id="downloadPDF" style="padding: 10px 20px; background-color: var(--accent-color); border: none; border-radius: 5px; color: #fff; cursor: pointer;">تنزيل التقرير كـ PDF</button>
+      </section>
+      <!-- ============================================== -->
+      <!-- قسم "تفاصيل تقنية واستراتيجيات متقدمة" -->
+      <section id="advancedInfo">
+        <h1>تفاصيل تقنية واستراتيجيات متقدمة</h1>
+        <div class="extra-section">
+          <h3>أحدث الابتكارات في إدارة المشاريع</h3>
+          <p>
+            يعتمد هذا القسم على استعراض أحدث التقنيات الرقمية والابتكارات في مجال إدارة المشاريع، مثل استخدام الذكاء الاصطناعي لتحليل البيانات وتوقع المخاطر. تُتيح الأنظمة الرقمية الآن جمع البيانات من مصادر متعددة وتحليلها بشكل فوري، مما يساعد في اتخاذ قرارات مبنية على معلومات دقيقة.
+          </p>
+          <p>
+            تُستخدم تقنيات التعلم الآلي لتحليل الأداء وتحديد المؤشرات الحيوية التي تُسهم في تحسين توزيع الموارد وتوقع التحديات المستقبلية.
+          </p>
+        </div>
+        <div class="extended-content">
+          <h3>استراتيجيات التحسين المستمر</h3>
+          <p>
+            ترتكز استراتيجيات التحسين المستمر على مراجعة دورية لجميع مراحل المشروع، وتقييم النتائج باستخدام مؤشرات الأداء الرئيسية (KPIs) مع تحليل إحصائي متقدم. تُساعد هذه الاستراتيجيات في الكشف عن نقاط الضعف وإجراء التعديلات اللازمة قبل تفاقم المشكلات.
+          </p>
+          <p>
+            يُوصى بتطبيق نظام رقمي متكامل يُحدث التقارير تلقائياً مع تقديم توصيات تصحيحية مبنية على تحليل بيانات شامل، مما يُحقق تحسينات مستمرة في جودة المشروع.
+          </p>
+        </div>
+        <div class="new-details">
+          <h3>دراسات حالة وأمثلة تطبيقية</h3>
+          <p>
+            يتضمن هذا القسم دراسات حالة عملية تُوضح كيفية تطبيق أفضل الممارسات العالمية في مشاريع مختلفة، مع عرض نتائج تحليلية ورسوم بيانية توضيحية تُدعم اتخاذ القرارات الاستراتيجية. تشمل الدراسات استخدام أنظمة المراقبة الرقمية، التحليل التنبؤي، وتطبيق تقنيات الذكاء الاصطناعي.
+          </p>
+          <p>
+            تُظهر هذه الدراسات كيفية تحسين الأداء وتقليل المخاطر من خلال استراتيجيات مبنية على بيانات دقيقة.
+          </p>
+        </div>
+        <div class="extra-section">
+          <h3>التكامل بين التقنيات وإدارة المشروع</h3>
+          <p>
+            يُعد التكامل بين تقنيات الذكاء الاصطناعي، إنترنت الأشياء (IoT)، وبرمجيات إدارة المشاريع الرقمية خطوة أساسية نحو تحقيق إدارة مشاريع ذكية. يساعد هذا التكامل في تحسين رصد الأداء وتقديم تقارير فورية، مما يُتيح التعديل السريع للاستراتيجيات التشغيلية.
+          </p>
+          <p>
+            يعمل هذا التكامل على تحسين كفاءة المشروع من خلال توفير بيانات تحليلية متكاملة ومحدثة باستمرار.
+          </p>
+        </div>
+        <div class="extended-content">
+          <h3>الابتكار في أدوات المراقبة وإدارة الأداء</h3>
+          <p>
+            تعتمد أدوات المراقبة الحديثة على تقنيات إنترنت الأشياء والتحليل الرقمي لتوفير بيانات آنية حول أداء المشروع. تُستخدم هذه الأدوات لإنشاء لوحات معلومات تفاعلية (Dashboards) تُظهر مؤشرات الأداء الرئيسية وتتيح اتخاذ إجراءات تصحيحية فورية.
+          </p>
+          <p>
+            تُسهم هذه الأدوات في تحسين دقة التخطيط والرقابة التشغيلية، مما يؤدي إلى تحسين جودة المشروع وتوفير التكاليف.
+          </p>
+        </div>
+        <div class="new-details">
+          <h3>مستقبل إدارة المشاريع</h3>
+          <p>
+            مع التطور التكنولوجي المستمر، ستصبح إدارة المشاريع أكثر اعتماداً على الأنظمة الرقمية والذكاء الاصطناعي لتحليل البيانات وإدارة المخاطر. يمثل هذا التحول الرقمي نقلة نوعية تُحدث ثورة في طريقة التخطيط والتنفيذ والمراقبة.
+          </p>
+          <p>
+            يتيح الدمج بين البيانات الرقمية والاستراتيجيات الحديثة تحقيق تحسينات كبيرة في الكفاءة التشغيلية وتقليل التكاليف التشغيلية، مما يضمن استدامة ونجاح المشروع على المدى الطويل.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- ============================================== -->
+  <!-- الفوتر -->
+  <footer>
+    <p><i class="fas fa-copyright"></i> 2025 - النظام المتكامل لدليل إدارة وتنفيذ المشاريع. جميع الحقوق محفوظة.</p>
+  </footer>
+  <!-- ============================================== -->
+  <!-- سكريبتات JavaScript -->
+  <script>
+    // تفعيل التبويبات
+    document.querySelectorAll('.tab-link').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        var target = this.getAttribute('data-target');
+        document.querySelectorAll('main section').forEach(section => {
+          section.classList.remove('active');
+          if (section.id === target) {
+            section.classList.add('active');
+          }
+        });
+      });
+    });
+    
+    // وظيفة الحاسبة: قراءة القيم وحساب التقديرات
+    document.getElementById('calcBtn').addEventListener('click', function() {
+      const tasks = parseFloat(document.getElementById('tasks').value) || 0;
+      const avgDuration = parseFloat(document.getElementById('avgDuration').value) || 0;
+      const resources = parseFloat(document.getElementById('resources').value) || 0;
+      const costPerResource = parseFloat(document.getElementById('costPerResource').value) || 0;
+      
+      // حساب مدة المشروع (افتراض أن كل مهمة تعمل بالتوازي بشكل مثالي مع وجود موارد كافية)
+      const estimatedDuration = tasks * avgDuration / (resources || 1);
+      // حساب التكلفة الإجمالية
+      const estimatedCost = resources * costPerResource * estimatedDuration;
+      
+      const resultText = `المدة التقديرية: ${estimatedDuration.toFixed(1)} يوم  
+التكلفة الإجمالية التقديرية: ${estimatedCost.toLocaleString()} ريال`;
+      document.getElementById('calcResult').innerText = resultText;
+    });
+    
+    // وظيفة حاسبة الجدول الزمني
+    document.getElementById('scheduleCalcBtn').addEventListener('click', function() {
+      const totalTasks = parseFloat(document.getElementById('totalTasks').value) || 0;
+      const workingDays = parseFloat(document.getElementById('workingDays').value) || 1;
+      const projectWeeks = parseFloat(document.getElementById('projectWeeks').value) || 0;
+      const estimatedProjectDuration = (totalTasks / workingDays) / projectWeeks;
+      const resultText = `متوسط عدد الأسابيع اللازمة للمشروع: ${estimatedProjectDuration.toFixed(1)} أسبوع`;
+      document.getElementById('scheduleResult').innerText = resultText;
+    });
+    
+    // وظيفة حاسبة تقييم المخاطر
+    document.getElementById('riskCalcBtn').addEventListener('click', function() {
+      const riskFactors = parseFloat(document.getElementById('riskFactors').value) || 0;
+      const riskSeverity = parseFloat(document.getElementById('riskSeverity').value) || 0;
+      const riskIndex = riskFactors * riskSeverity;
+      const resultText = `مؤشر المخاطر: ${riskIndex}`;
+      document.getElementById('riskResult').innerText = resultText;
+    });
+    
+    // أمثلة توضيحية: إنشاء الرسوم البيانية باستخدام Chart.js لكل مثال
+    // مثال 1: exChart1
+    const exChart1Ctx = document.getElementById('exChart1')?.getContext('2d');
+    if (exChart1Ctx) {
+      new Chart(exChart1Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['عينة 1', 'عينة 2', 'عينة 3'],
+          datasets: [
+            { label: 'نسبة المخاطر (%)', data: [30, 45, 25], backgroundColor: 'rgba(255, 159, 64, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل المخاطر (exChart1)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 2: exChart2
+    const exChart2Ctx = document.getElementById('exChart2')?.getContext('2d');
+    if (exChart2Ctx) {
+      new Chart(exChart2Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الشهر 1', 'الشهر 2', 'الشهر 3'],
+          datasets: [
+            { label: 'التكلفة (ريال)', data: [100000, 120000, 110000], borderColor: 'rgba(75, 192, 192, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تغير التكلفة (exChart2)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 3: exChart3
+    const exChart3Ctx = document.getElementById('exChart3')?.getContext('2d');
+    if (exChart3Ctx) {
+      new Chart(exChart3Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['فريق 1', 'فريق 2', 'فريق 3'],
+          datasets: [
+            { label: 'كفاءة الأداء (%)', data: [80, 85, 78], backgroundColor: 'rgba(54, 162, 235, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'توزيع كفاءة الفرق (exChart3)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 4: exChart4
+    const exChart4Ctx = document.getElementById('exChart4')?.getContext('2d');
+    if (exChart4Ctx) {
+      new Chart(exChart4Ctx, {
+        type: 'line',
+        data: {
+          labels: ['اليوم 1', 'اليوم 2', 'اليوم 3'],
+          datasets: [
+            { label: 'مدة التنفيذ (ساعات)', data: [8, 7, 9], borderColor: 'rgba(255, 99, 132, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'مدة التنفيذ اليومية (exChart4)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 5: exChart5
+    const exChart5Ctx = document.getElementById('exChart5')?.getContext('2d');
+    if (exChart5Ctx) {
+      new Chart(exChart5Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['قطاع A', 'قطاع B', 'قطاع C'],
+          datasets: [
+            { label: 'الإنفاق المالي (ريال)', data: [50000, 60000, 55000], backgroundColor: 'rgba(75, 192, 192, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'توزيع الإنفاق المالي (exChart5)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 6: exChart6
+    const exChart6Ctx = document.getElementById('exChart6')?.getContext('2d');
+    if (exChart6Ctx) {
+      new Chart(exChart6Ctx, {
+        type: 'line',
+        data: {
+          labels: ['المرحلة 1', 'المرحلة 2', 'المرحلة 3'],
+          datasets: [
+            { label: 'نسبة الإنجاز (%)', data: [70, 80, 90], borderColor: 'rgba(153, 102, 255, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تقدم المشروع بالمراحل (exChart6)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 7: exChart7
+    const exChart7Ctx = document.getElementById('exChart7')?.getContext('2d');
+    if (exChart7Ctx) {
+      new Chart(exChart7Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['منطقة 1', 'منطقة 2', 'منطقة 3'],
+          datasets: [
+            { label: 'مستوى التحديات (%)', data: [40, 35, 45], backgroundColor: 'rgba(255, 206, 86, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'مستوى التحديات في مناطق المشروع (exChart7)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 8: exChart8
+    const exChart8Ctx = document.getElementById('exChart8')?.getContext('2d');
+    if (exChart8Ctx) {
+      new Chart(exChart8Ctx, {
+        type: 'line',
+        data: {
+          labels: ['المشروع 1', 'المشروع 2', 'المشروع 3'],
+          datasets: [
+            { label: 'معدل رضا العملاء (%)', data: [85, 80, 90], borderColor: 'rgba(255, 99, 132, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'معدل رضا العملاء (exChart8)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 9: exChart9
+    const exChart9Ctx = document.getElementById('exChart9')?.getContext('2d');
+    if (exChart9Ctx) {
+      new Chart(exChart9Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['المهام 1', 'المهام 2', 'المهام 3'],
+          datasets: [
+            { label: 'نسبة الإنجاز (%)', data: [75, 80, 70], backgroundColor: 'rgba(54, 162, 235, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'إنجاز المهام (exChart9)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 10: exChart10
+    const exChart10Ctx = document.getElementById('exChart10')?.getContext('2d');
+    if (exChart10Ctx) {
+      new Chart(exChart10Ctx, {
+        type: 'line',
+        data: {
+          labels: ['قبل التحسين', 'بعد التحسين'],
+          datasets: [
+            { label: 'كفاءة العمليات (%)', data: [65, 85], borderColor: 'rgba(75, 192, 192, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحسين كفاءة العمليات (exChart10)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 11: exChart11
+    const exChart11Ctx = document.getElementById('exChart11')?.getContext('2d');
+    if (exChart11Ctx) {
+      new Chart(exChart11Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['فترة 1', 'فترة 2', 'فترة 3'],
+          datasets: [
+            { label: 'الانحراف الزمني (ساعات)', data: [2, 1.5, 2.2], backgroundColor: 'rgba(255, 206, 86, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'الانحراف الزمني (exChart11)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 12: exChart12
+    const exChart12Ctx = document.getElementById('exChart12')?.getContext('2d');
+    if (exChart12Ctx) {
+      new Chart(exChart12Ctx, {
+        type: 'line',
+        data: {
+          labels: ['قبل التدريب', 'بعد التدريب'],
+          datasets: [
+            { label: 'كفاءة الفريق (%)', data: [70, 90], borderColor: 'rgba(153, 102, 255, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحسين كفاءة الفريق (exChart12)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 13: exChart13
+    const exChart13Ctx = document.getElementById('exChart13')?.getContext('2d');
+    if (exChart13Ctx) {
+      new Chart(exChart13Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['مؤشر 1', 'مؤشر 2', 'مؤشر 3'],
+          datasets: [
+            { label: 'مستوى الأداء (%)', data: [80, 85, 75], backgroundColor: 'rgba(255, 99, 132, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل الأداء العام (exChart13)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 14: exChart14
+    const exChart14Ctx = document.getElementById('exChart14')?.getContext('2d');
+    if (exChart14Ctx) {
+      new Chart(exChart14Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الفترة 1', 'الفترة 2', 'الفترة 3'],
+          datasets: [
+            { label: 'معدل التقدم (%)', data: [68, 75, 80], borderColor: 'rgba(75, 192, 192, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'معدل التقدم (exChart14)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 15: exChart15
+    const exChart15Ctx = document.getElementById('exChart15')?.getContext('2d');
+    if (exChart15Ctx) {
+      new Chart(exChart15Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['المرحلة الأولى', 'المرحلة الثانية', 'المرحلة الثالثة'],
+          datasets: [
+            { label: 'معدل الكفاءة (%)', data: [78, 82, 88], backgroundColor: 'rgba(54, 162, 235, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل معدل الكفاءة (exChart15)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 16: exChart16
+    const exChart16Ctx = document.getElementById('exChart16')?.getContext('2d');
+    if (exChart16Ctx) {
+      new Chart(exChart16Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['فريق أ', 'فريق ب', 'فريق ج'],
+          datasets: [
+            { label: 'مستوى التحليل (%)', data: [75, 80, 70], backgroundColor: 'rgba(200, 100, 50, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل مستوى التحليل الرقمي (exChart16)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 17: exChart17
+    const exChart17Ctx = document.getElementById('exChart17')?.getContext('2d');
+    if (exChart17Ctx) {
+      new Chart(exChart17Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الفترة الصباحية', 'الفترة الظهيرة', 'الفترة المسائية'],
+          datasets: [
+            { label: 'مستوى الكفاءة (%)', data: [82, 88, 85], borderColor: 'rgba(100, 150, 200, 0.8)', fill: false, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل الكفاءة عبر الفترات الزمنية (exChart17)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 18: exChart18
+    const exChart18Ctx = document.getElementById('exChart18')?.getContext('2d');
+    if (exChart18Ctx) {
+      new Chart(exChart18Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['نظام قديم', 'نظام حديث'],
+          datasets: [
+            { label: 'كفاءة الإضاءة (%)', data: [70, 90], backgroundColor: ['rgba(150, 50, 200, 0.7)', 'rgba(50, 200, 100, 0.7)'] }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'مقارنة أداء أنظمة الإنارة (exChart18)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 19: exChart19
+    const exChart19Ctx = document.getElementById('exChart19')?.getContext('2d');
+    if (exChart19Ctx) {
+      new Chart(exChart19Ctx, {
+        type: 'radar',
+        data: {
+          labels: ['الضغط', 'الانحناء', 'التشوه', 'الاستجابة'],
+          datasets: [
+            { label: 'نموذج 1', data: [80, 70, 75, 85], backgroundColor: 'rgba(255, 159, 64, 0.2)', borderColor: 'rgba(255, 159, 64, 1)', fill: true },
+            { label: 'نموذج 2', data: [75, 68, 80, 80], backgroundColor: 'rgba(75, 192, 192, 0.2)', borderColor: 'rgba(75, 192, 192, 1)', fill: true }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل الإجهاد في الهياكل (exChart19)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 20: exChart20
+    const exChart20Ctx = document.getElementById('exChart20')?.getContext('2d');
+    if (exChart20Ctx) {
+      new Chart(exChart20Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الساعة 0', 'الساعة 6', 'الساعة 12', 'الساعة 18', 'الساعة 24'],
+          datasets: [
+            { label: 'استهلاك الطاقة (kWh)', data: [120, 110, 130, 125, 115], borderColor: 'rgba(153, 102, 255, 0.8)', backgroundColor: 'rgba(153, 102, 255, 0.2)', fill: true, tension: 0.3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل استهلاك الطاقة (exChart20)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 21: exChart21
+    const exChart21Ctx = document.getElementById('exChart21')?.getContext('2d');
+    if (exChart21Ctx) {
+      new Chart(exChart21Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['منطقة A', 'منطقة B', 'منطقة C'],
+          datasets: [
+            { label: 'معدل الرطوبة (%)', data: [55, 60, 58], backgroundColor: 'rgba(255, 206, 86, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل مستويات الرطوبة (exChart21)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 22: exChart22
+    const exChart22Ctx = document.getElementById('exChart22')?.getContext('2d');
+    if (exChart22Ctx) {
+      new Chart(exChart22Ctx, {
+        type: 'line',
+        data: {
+          labels: ['مادة تشطيبية A', 'مادة تشطيبية B'],
+          datasets: [
+            { label: 'كفاءة التشطيب (%)', data: [85, 95], borderColor: 'rgba(75, 192, 192, 0.8)', backgroundColor: 'rgba(75, 192, 192, 0.2)', fill: true }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'مقارنة أداء المواد التشطيبية (exChart22)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 23: exChart23
+    const exChart23Ctx = document.getElementById('exChart23')?.getContext('2d');
+    if (exChart23Ctx) {
+      new Chart(exChart23Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الساعة 0', 'الساعة 6', 'الساعة 12', 'الساعة 18', 'الساعة 24'],
+          datasets: [
+            { label: 'مستوى التهوية (%)', data: [80, 85, 90, 88, 82], borderColor: 'rgba(255, 99, 132, 0.8)', backgroundColor: 'rgba(255, 99, 132, 0.2)', fill: true, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'أداء نظام التهوية (exChart23)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 24: exChart24
+    const exChart24Ctx = document.getElementById('exChart24')?.getContext('2d');
+    if (exChart24Ctx) {
+      new Chart(exChart24Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['قبل المعالجة', 'بعد المعالجة'],
+          datasets: [
+            { label: 'قوة الخرسانة (MPa)', data: [20, 30], backgroundColor: ['rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)'] }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل تأثير المعالجة على الخرسانة (exChart24)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 25: exChart25
+    const exChart25Ctx = document.getElementById('exChart25')?.getContext('2d');
+    if (exChart25Ctx) {
+      new Chart(exChart25Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['لحام A', 'لحام B', 'لحام C'],
+          datasets: [
+            { label: 'نسبة العيوب (%)', data: [1.8, 2.5, 2.0], backgroundColor: 'rgba(54, 162, 235, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل جودة اللحامات (exChart25)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 26: exChart26
+    const exChart26Ctx = document.getElementById('exChart26')?.getContext('2d');
+    if (exChart26Ctx) {
+      new Chart(exChart26Ctx, {
+        type: 'line',
+        data: {
+          labels: ['0 ساعة', '6 ساعة', '12 ساعة', '18 ساعة', '24 ساعة'],
+          datasets: [
+            { label: 'كفاءة الأنظمة الذكية (%)', data: [88, 90, 92, 91, 89], borderColor: 'rgba(75, 192, 192, 0.8)', backgroundColor: 'rgba(75, 192, 192, 0.2)', fill: true, tension: 0.4 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل أداء الأنظمة الذكية (exChart26)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 27: exChart27
+    const exChart27Ctx = document.getElementById('exChart27')?.getContext('2d');
+    if (exChart27Ctx) {
+      new Chart(exChart27Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['عينة 1', 'عينة 2', 'عينة 3'],
+          datasets: [
+            { label: 'نسبة التآكل (%)', data: [2.2, 1.8, 2.0], backgroundColor: 'rgba(255, 206, 86, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'مقارنة معدلات التآكل (exChart27)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 28: exChart28
+    const exChart28Ctx = document.getElementById('exChart28')?.getContext('2d');
+    if (exChart28Ctx) {
+      new Chart(exChart28Ctx, {
+        type: 'line',
+        data: {
+          labels: ['الساعة 0', 'الساعة 8', 'الساعة 16', 'الساعة 24'],
+          datasets: [
+            { label: 'أداء الأنظمة الميكانيكية (%)', data: [80, 85, 88, 82], borderColor: 'rgba(255, 99, 132, 0.8)', backgroundColor: 'rgba(255, 99, 132, 0.2)', fill: true, tension: 0.3 }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل أداء الأنظمة الميكانيكية (exChart28)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 29: exChart29
+    const exChart29Ctx = document.getElementById('exChart29')?.getContext('2d');
+    if (exChart29Ctx) {
+      new Chart(exChart29Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['المبنى A', 'المبنى B', 'المبنى C'],
+          datasets: [
+            { label: 'استهلاك الطاقة (kWh)', data: [300, 280, 310], backgroundColor: 'rgba(54, 162, 235, 0.7)' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'تحليل استهلاك الطاقة (exChart29)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    // مثال 30: exChart30
+    const exChart30Ctx = document.getElementById('exChart30')?.getContext('2d');
+    if (exChart30Ctx) {
+      new Chart(exChart30Ctx, {
+        type: 'bar',
+        data: {
+          labels: ['التربة', 'الخرسانة', 'اللحامات', 'التشطيبات', 'الأنظمة'],
+          datasets: [
+            { label: 'المعدل (%)', data: [85, 90, 88, 87, 92], backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)'
+            ] }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: { display: true, text: 'الأداء العام للمبنى (exChart30)' },
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+    
+    // وظيفة تحويل المحتوى إلى PDF باستخدام jsPDF
+    document.getElementById('downloadPDF').addEventListener('click', function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFont('Cairo');
+      doc.setFontSize(18);
+      doc.text("دليل إدارة وتنفيذ المشاريع", 105, 20, { align: "center" });
+      doc.setFontSize(12);
+      doc.text("يرجى مراجعة المحتوى التفصيلي للحصول على كافة التعليمات والبيانات.", 105, 30, { align: "center" });
+      // يمكن إضافة المزيد من المحتوى هنا حسب الحاجة
+      doc.save("دليل_إدارة_المشاريع.pdf");
+    });
+    
+    // يمكن إضافة المزيد من السكريبتات لتحسين التفاعلية وإدارة المحتوى حسب الحاجة.
+  </script>
+  <!-- ============================================== -->
+  <!-- ملاحظات لتوسعة المحتوى: يُفترض استخدام كتل "extended-content" و"extra-section" و"new-details" لتوسعة الشرح وإضافة معلومات تقنية جديدة دون تكرار -->
+</body>
+</html>
